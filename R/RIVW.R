@@ -18,7 +18,6 @@
 #' @references   Xinwei Ma, Jingshen Wang, Chong Wu. (2023). Breaking the Winner’s Curse in Mendelian Randomization:Rerandomized Inverse Variance Weighted Estimator \url{https://projecteuclid.org/journals/annals-of-statistics/volume-51/issue-1/Breaking-the-winners-curse-in-Mendelian-randomization--Rerandomized-inverse/10.1214/22-AOS2247.full}.
 #'
 #' @import stats
-#' @export
 #'
 #' @examples
 #'
