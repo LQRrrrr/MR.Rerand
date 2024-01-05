@@ -1,10 +1,10 @@
 Package: mr.rivw
-Title: Re-randomized  
+Title: Re-randomized Inverse-Variance Weighted Estimator in two-sample Mendelian Randomization with Summary-data and Mediation analysis in Mendelian Randomization with Summary-data  
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Authors: 
+    person("Rita", "Lyu", "qiuran_lyu@berkeley.edu", role = c("aut", "cre"))
+Maintainer: The package maintainer <qiuran_lyu@berkeley.edu>
+Description: Conducting rerandomization in two sample GWAS with summary data to estimate the causal effect or in three samples GWAS to estimate the mediation effect.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
