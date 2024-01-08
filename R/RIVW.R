@@ -59,13 +59,13 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
 
       weights =  pnorm(alpha1) + 1 - pnorm(alpha2)
 
-      gamma.carve = gamma.exp_sel - (se.exp_sel/etamean) * ( (dnorm(alpha2) - dnorm(alpha1)) / weights )
-      sigma2.carve = (1 - ((alpha2*dnorm(alpha2) - alpha1*dnorm(alpha1)) / (1 - pnorm(alpha2) + pnorm(alpha1) ) - ((dnorm(alpha2) - dnorm(alpha1))/(1 - pnorm(alpha2) + pnorm(alpha1)))^2) / etamean^2 ) * se.exp_sel^2
+      gamma1.carve = gamma.exp_sel - (se.exp_sel/etamean) * ( (dnorm(alpha2) - dnorm(alpha1)) / weights )
+      sigma21.carve = (1 - ((alpha2*dnorm(alpha2) - alpha1*dnorm(alpha1)) / (1 - pnorm(alpha2) + pnorm(alpha1) ) - ((dnorm(alpha2) - dnorm(alpha1))/(1 - pnorm(alpha2) + pnorm(alpha1)))^2) / etamean^2 ) * se.exp_sel^2
 
       # For the nu
       warning("Some corrected IVs with variance <= 0\n")
       tmp = (1 + etamean^2 ) * se.exp_sel^2
-      sigma2.carve[sigma2.carve <=0] = tmp[sigma2.carve <=0]
+      sigma21.carve[sigma21.carve <=0] = tmp[sigma21.carve <=0]
   }
 
   return(list(filter1=ind_filter1,gamma_exp1=gamma1.carve,se1=sqrt(sigma21.carve),weights=weights))
