@@ -14,7 +14,7 @@ This package can implement (i) RIVW for estimating the causal effect $\beta$ fro
 Another important usage of this package is to generate the re-randomized effect size and the standard errors after Rao-Blackwellization for two-sample MR analysis to eliminate the winner's curse. The generated effect sizes and the standard errors can then be applied to two-sample MR methods with summary data.  Using notations in reference 1, Here, 
 
 $$
-\widehat{\gamma}_{j, \mathtt{RB}}=\widehat{\gamma}_j-\frac{\sigma_{X_j}}{\eta} 
+\widehat{\gamma}_{j, \mathtt{RB}}=\widehat{\gamma}_{j}-\frac{\sigma_{X_j}}{\eta} 
 $$
 
 
