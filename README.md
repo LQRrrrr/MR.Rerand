@@ -11,15 +11,9 @@ install_github("LQRrrrr/MR.Rerand")
 
 This package can implement (i) RIVW for estimating the causal effect $\beta$ from the exposure variable $X$ to the outcome variable $Y$, (ii)MAGIC for estimating the direct effects $\theta$ and $\tau_Y$, the mediation effect $\tau=\tau_X\tau_Y$, the causal effect $\tau_X$ from $X$ to $M$, and the total effect $\theta+\tau$ as parameters shown in the below figure.
 
-Another important usage of this package is to generate the re-randomized effect size and the standard errors after Rao-Blackwellization for two-sample MR analysis to eliminate the winner's curse. The generated effect sizes and the standard errors can then be applied to two-sample MR methods with summary data.  Using notations in reference 1, Here, 
-
-$$
-\widehat{\gamma}_{j, \mathtt{RB}}=\widehat{\gamma}_{j} 
-$$
+Another important usage of this package is to generate the re-randomized effect size $\widehat{\gamma}_{j, \mathtt{RB}}$ and the standard errors $\hat{\sigma}_{X_j,\mathtt{RB}}$ after Rao-Blackwellization for two-sample MR analysis to eliminate the winner's curse. The generated effect sizes and the standard errors can then be applied to two-sample MR methods with summary data.  See more details in reference 1.
 
 
-
-Here $\phi(\cdot)$, $\Phi(\cdot)$ denote the standard normal density and cumulative distribution functions.
 
 
 <figure>
