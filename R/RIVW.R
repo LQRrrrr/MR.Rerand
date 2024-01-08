@@ -90,6 +90,7 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
 #' \item{se.rerand}{Exposure dataset standard errors after rerandomization.}
 #' \item{beta.hat}{Estimated direct effect from exposure to outcome variable}
 #' \item{beta.se}{Standard error of \code{beta.hat}}
+#' \item{IV}{The index of IVs selected in Sx}
 #' \item{n.IV}{Number of IVs used in exposure dataset}
 #' \item{F}{The value of F-statistic}
 #' \item{p.val}{The p-value of estimated causal effect}
@@ -139,7 +140,7 @@ RIVW<-function(beta.exposure, beta.outcome, se.exposure, se.outcome, Conf.level=
   p.val=p
   z_score=qnorm((1-Conf.level)/2,lower.tail = FALSE)
   Conf.Interval=c(beta.hat-z_score*beta.se,beta.hat+z_score*beta.se)
-  return(list(beta.rerand=beta.rerand,se.rerand=se.rerand,beta.hat=beta.hat,beta.se=beta.se,n.IV=n.IV,F=F_stats,p.val=p.val,Conf.Interval=Conf.Interval))
+  return(list(beta.rerand=beta.rerand,se.rerand=se.rerand,beta.hat=beta.hat,beta.se=beta.se,IV=ind_filter,n.IV=n.IV,F=F_stats,p.val=p.val,Conf.Interval=Conf.Interval))
 
 
   }
