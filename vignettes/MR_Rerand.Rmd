@@ -1,10 +1,12 @@
 ---
-title: "An introduction to MR_Rerand"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{An introduction to MR_Rerand}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "An introduction to 'MR_Rerand'"
+author: "Rita(Qiuran) Lyu"
+date: "Jan.2024"
+output: 
+  pdf_document:
+    fig_caption: yes
+    toc: yes
+    toc_depth: 3
 ---
 
 ```{r, include = FALSE}
