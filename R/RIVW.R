@@ -31,14 +31,15 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
   # Step 2: Select significant SNPs:
   C_sel_x = qnorm(p_x/2,lower.tail = FALSE)
   ind_filter1 = which(abs(gamma1.exp/se1.exp + W) >= C_sel_x)
-  gamma1.exp_sel=gamma1.exp
-  se1.exp_sel=se1.exp
+  gamma1.exp_sel=gamma1.exp[ind_filter1]
+  se1.exp_sel=se1.exp[ind_filter1]
   eta_sel=etamean
   alpha1=(-C_sel_x-gamma1.exp_sel/se1.exp_sel)/eta_sel
   alpha2=(C_sel_x-gamma1.exp_sel/se1.exp_sel)/eta_sel
   gamma1.carve=gamma1.exp_sel-(se1.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha1)+1-pnorm(alpha2)))
   sigma21.carve=(1-((alpha2*dnorm(alpha2)-alpha1*dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1))-((dnorm(alpha2)-dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1)))^2)/eta_sel^2)*se1.exp_sel^2
   weights=rep(1,length(ind_filter1))
+
 
   }else
     {
