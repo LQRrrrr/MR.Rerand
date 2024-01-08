@@ -14,6 +14,7 @@ This package can implement (i) RIVW for estimating the causal effect $\beta$ fro
 Another important usage of this package is to generate the re-randomized effect size and the standard errors after Rao-Blackwellization for two-sample MR analysis to eliminate the winner's curse bias. The generated effect sizes and the standard errors can then be applied to two-sample MR methods with summary data.  See more details in reference 1.
 
 - MAGIC implements MAGIC for mediation analysis using Mendelian Randomization with summary data
+
 - RIVW implements RIVW for two-sample Mendelian Randomization with summary data
 
 The effect sizes and standard errors after Rao-Blackwellization can be obtained by
