@@ -118,7 +118,7 @@ RIVW<-function(beta.exposure, beta.outcome, se.exposure, se.outcome, Conf.level=
   RIVW.var = sum( (beta.out_sel * betanew_x - beta * (betanew_x^2 - senew_x^2) )^2 / se.out_sel^4) / (sum((betanew_x^2 - senew_x^2) / se.out_sel^2) )^2
   beta.se = sqrt(RIVW.var)
   F_stats = sum(beta.exposure[ind_filter]^2/se.exposure[ind_filter]^2)/length(beta.exposure[ind_filter]) - 1
-  p = pnorm(abs(beta/sd), lower.tail = F) * 2
+  p = pnorm(abs(beta/beta.se), lower.tail = F) * 2
   }else
   {
     weights=over_summary$weights
@@ -127,9 +127,9 @@ RIVW<-function(beta.exposure, beta.outcome, se.exposure, se.outcome, Conf.level=
     beta = sum(betanew_x * beta.out_sel * weights * (1/se.out_sel^2)) / sum((betanew_x^2 - senew_x^2) * weights / se.out_sel^2)
     # estimation based on regression residuals
     RIVW.var = sum( (beta.out_sel * betanew_x - beta * (betanew_x^2 - senew_x^2) )^2 * weights^2 / se.out_sel^4) / (sum((betanew_x^2 -senew_x^2) * weights / se.out_sel^2) )^2
-    sd = sqrt(RIVW.var)
+    beta.se = sqrt(RIVW.var)
     F_stats = sum(beta.exposure[ind_filter]^2/se.exposure[ind_filter]^2)/length(beta.exposure[ind_filter]) - 1
-    p = pnorm(abs(beta/sd), lower.tail = F) * 2
+    p = pnorm(abs(beta/beta.se), lower.tail = F) * 2
   }
   beta.rerand=betanew_x
   se.rerand=senew_x
