@@ -21,6 +21,57 @@ Another important usage of this package is to generate the re-randomized effect 
   <figcaption>Causal Diagram for Mediation Analysis.</figcaption>
 </figure>
 
+## Example usage:
+
+```R
+library(MR.Rerand)
+##Generating data
+   M=100000
+   pi1=pi2=0.02
+   pi3=0.02
+   nx=ny=nm=100000
+   se_x=rep(sqrt(1/nx),M)
+   se_y=rep(sqrt(1/ny),M)
+   se_m=rep(sqrt(1/nm),M)
+   sigma2x=sigma2y=0.5e-4
+
+   theta=-0.2
+   tauY=0.2
+   tauX=0.6
+
+  gamma=rep(0,M)
+  ind1=sample(M,round(M*pi1))#valid for betaXj
+  causalsnps=ind1
+    
+      
+      
+  ## simulation 1 (see more simulation settings in reference 2)
+  ind3=sample(setdiff(1:M,causalsnps),round(M*pi3))# valid for sj
+  causalsnps=c(causalsnps,ind3)
+      
+   
+  alpha=rep(0,M)
+      
+  gamma[ind1]=rnorm(length(ind1),0,sd=sqrt(sigma2x))
+  alpha[ind3]=rnorm(length(ind3),0,sd=sqrt(sigma2y))
+  gammam=tauX*gamma+alpha# pleiotropy sj
+  gammay=theta*gamma+tauY*gammam#no pleiotropy
+      betax=gamma
+      betam=gammam
+      betay=gammay
+      
+      betahat_x=gamma+rnorm(M,mean=0,sd=sqrt(1/nx))
+      betahat_m=gammam+rnorm(M,mean=0,sd=sqrt(1/nm))
+      betahat_y=gammay+rnorm(M,mean=0,sd=sqrt(1/ny))
+  ## Conducting mediation analysis  
+  mediaiton.result=MAGIC(betahat_x,betahat_m,betahat_y,se_x,se_m,se_y)
+  ## Conducting two-sample MR using RIVW with smoothing to decrease the variance
+  RIVW.result,smoothing=RIVW(betahat_x,betahat_m,se_x,se_m,smoothing = TRUE)   
+  ## Conducting two-sample MR using RIVW with smoothing to decrease the variance
+  RIVW.result=RIVW(betahat_x,betahat_m,se_x,se_m)
+  ## Just generate rerandomized effect size and standard errors
+  rerandomized.GWAS=pre_screening(betahat_x,se_x)
+```
 
 ### References
 

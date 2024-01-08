@@ -48,7 +48,7 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
       # Step 2: Select significant SNPs:
       C_sel = qnorm(pthr/2,lower.tail = FALSE)
 
-      ind_filter = which(abs(gamma1.exp/se1.exp + W) >= 0) # there is no selections, we used all IVs in sRIVW
+      ind_filter1 = which(abs(gamma1.exp/se1.exp + W) >= 0) # there is no selections, we used all IVs in sRIVW
 
       gamma.exp_sel = gamma1.exp
       se.exp_sel = se1.exp
