@@ -1,0 +1,19 @@
+---
+title: "An introduction to MR_Rerand"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An introduction to MR_Rerand}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MR.Rerand)
+```
