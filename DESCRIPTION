@@ -11,7 +11,7 @@ Imports:
         msm,
 License: MIT + file LICENSE
 Authors@R: 
-    person("Rita", "Lyu", , "qiuran_lyu@berkeley.edu", role = c("aut", "cre"))
+    person("Rita", "Lyu", , "qiuran_lyu@berkeley.edu", role = c("aut", "cre", "cph"))
 Suggests: 
     knitr,
     rmarkdown
