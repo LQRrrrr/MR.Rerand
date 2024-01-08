@@ -1,14 +1,19 @@
-#' Supplementary function for RIVW
+#' Supplementary function for RIVW to conduct rerandomization and Rao-Blackwellization
+#' in GWAS (I).
 #'
+#' For GWAS (I)  \eqn{(\hat{\beta}_{X_j}, {\sigma}_{X_j})}, the formula  is
+#' \eqn{\hat{\beta}_{X_j,\mathtt{RB}} =  \hat{\beta}_{X_j} - \frac{\sigma_{X_j}}{\eta}\Big(\phi\big(A_{j,+}\big) - \phi\big(A_{j,-}\big)\Big)\Big(\frac{\mathbf{1}_{(j\in\mathcal{S}_{\mathtt{x}})}}{1 - \Phi\big(A_{j,+}\big) + \Phi\big(A_{j,-}\big)} \Big)},
+#' \eqn{\hat{\sigma}_{X_j,\mathtt{RB}}^{ 2 }  = \sigma_{X_j}^2 \Bigg( 1 - \frac{1}{\eta^2}  \frac{A_{j,+}\phi(A_{j,+}) - A_{j,-}\phi(A_{j,-})}{1 - \Phi(A_{j,+}) + \Phi( A_{j,-} )} +\frac{1}{\eta^2} \Big(\frac{\phi(A_{j,+}) - \phi(A_{j,-}) }{1 - \Phi(A_{j,+}) + \Phi( A_{j, -} )}\Big)^2 \Bigg)},
+#' and \eqn{\phi(\cdot)} is the density function of standard normal distrbution, \eqn{\Phi(\cdot)} is the cummulative function of standard normal distrbution.
 #' @param gamma1.exp  SNP effect size's vector of the exposure vairable
 #' @param se1.exp    SNP effect size's standard errors of \code{beta.exposure}
 #' @param etamean  rerandomized scale of exposure variable. Default is 0.5.
-#' @param pthr The specified pre-screening threshold. Default is 5e-5. (corresponding lambda is 4.06)
-#' @param seed  A random seed. Default is 0.
+#' @param pthr The specified pre-screening threshold. Default is 5e-5. (corresponding \eqn{\lambda} is 4.06)
+#' @param seed  The value of the random seed. Default is 0.
 #' @param smoothing Whether to use smoothing to decrease variance . Default is FALSE.
 #' @return A list
 #' \describe{
-#' \item{filter1}{Indexs of selected relevant IVS.}
+#' \item{filter1}{Indexs of selected relevant IVs.}
 #' \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{weights}{The weights for each SNP. If smoothing is False, weights are the same for each SNP.}
@@ -74,16 +79,25 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
 
 
 
-#' Main function for RIVW
+#' Main function for conducting RIVW estimator.
+#'
+#' Conventional two-sample Mendelian randomization methods often employ the same sample for
+#'selecting relevant genetic variants and for constructing final causal estimates. Such a practice often
+#' leads to biased causal effect estimates due to the well-known "winner's curse" phenomenon. To
+#' address this fundamental challenge, we propose a novel framework that not only systematically
+#' breaks the winner's curse but also provides an unbiased estimate of the genetic association effect
+#' after selection. Built upon the proposed framework, we introduce a novel randomized inverse
+#' variance weighted (RIVW) estimator that is provably consistent when selection and parameter
+#' estimation are conducted on the same sample.
 #' @param beta.exposure  SNP effect size's vector of the exposure vairable (GWASI)
 #' @param beta.outcome   SNP effect size's vector of the outcome vairable (GWASII)
 #' @param se.exposure    SNP effect size's standard errors of \code{beta.exposure}
 #' @param se.outcome     SNP effect size's standard errors of \code{beta.outcome}
 #' @param Conf.level Confidence level. Default is 0.95.
 #' @param smoothing  Whether to use smoothing to decrease variance. Default is FALSE.
-#' @param pval.select The specified pre-screening threshold. Default is 5e-5. (corresponding lambda is 4.06)
+#' @param pval.select The specified pre-screening threshold. Default is 5e-5. (corresponding \eqn{\lambda} is 4.06)
 #' @param eta A vector of rerandomized scale. Default is 0.5.
-#' @param seed The value of random seed. Default is 0.
+#' @param seed The value of the random seed. Default is 0.
 #' @return A list
 #' \describe{
 #' \item{beta.rerand}{Exposure dataset effect size after rerandomization.}

@@ -2,7 +2,8 @@
 % Please edit documentation in R/RIVW.R
 \name{pre_screening}
 \alias{pre_screening}
-\title{Supplementary function for RIVW}
+\title{Supplementary function for RIVW to conduct rerandomization and Rao-Blackwellization
+in GWAS (I).}
 \usage{
 pre_screening(
   gamma1.exp,
@@ -20,23 +21,26 @@ pre_screening(
 
 \item{etamean}{rerandomized scale of exposure variable. Default is 0.5.}
 
-\item{pthr}{The specified pre-screening threshold. Default is 5e-5. (corresponding lambda is 4.06)}
+\item{pthr}{The specified pre-screening threshold. Default is 5e-5. (corresponding \eqn{\lambda} is 4.06)}
 
-\item{seed}{A random seed. Default is 0.}
+\item{seed}{The value of the random seed. Default is 0.}
 
 \item{smoothing}{Whether to use smoothing to decrease variance . Default is FALSE.}
 }
 \value{
 A list
 \describe{
-\item{filter1}{Indexs of selected relevant IVS.}
+\item{filter1}{Indexs of selected relevant IVs.}
 \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{weights}{The weights for each SNP. If smoothing is False, weights are the same for each SNP.}
 }
 }
 \description{
-Supplementary function for RIVW
+For GWAS (I)  \eqn{(\hat{\beta}_{X_j}, {\sigma}_{X_j})}, the formula  is
+\eqn{\hat{\beta}_{X_j,\mathtt{RB}} =  \hat{\beta}_{X_j} - \frac{\sigma_{X_j}}{\eta}\Big(\phi\big(A_{j,+}\big) - \phi\big(A_{j,-}\big)\Big)\Big(\frac{\mathbf{1}_{(j\in\mathcal{S}_{\mathtt{x}})}}{1 - \Phi\big(A_{j,+}\big) + \Phi\big(A_{j,-}\big)} \Big)},
+\eqn{\hat{\sigma}_{X_j,\mathtt{RB}}^{ 2 }  = \sigma_{X_j}^2 \Bigg( 1 - \frac{1}{\eta^2}  \frac{A_{j,+}\phi(A_{j,+}) - A_{j,-}\phi(A_{j,-})}{1 - \Phi(A_{j,+}) + \Phi( A_{j,-} )} +\frac{1}{\eta^2} \Big(\frac{\phi(A_{j,+}) - \phi(A_{j,-}) }{1 - \Phi(A_{j,+}) + \Phi( A_{j, -} )}\Big)^2 \Bigg)},
+and \eqn{\phi(\cdot)} is the density function of standard normal distrbution, \eqn{\Phi(\cdot)} is the cummulative function of standard normal distrbution.
 }
 \references{
 Xinwei Ma, Jingshen Wang, Chong Wu. (2023). Breaking the Winner’s Curse in Mendelian Randomization:Rerandomized Inverse Variance Weighted Estimator \url{https://projecteuclid.org/journals/annals-of-statistics/volume-51/issue-1/Breaking-the-winners-curse-in-Mendelian-randomization--Rerandomized-inverse/10.1214/22-AOS2247.full}.

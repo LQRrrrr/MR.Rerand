@@ -1,17 +1,23 @@
-#' Supplementary function for MAGIC
+#' Supplementary function for MAGIC to conduct rerandomization and Rao-Blackwellization
+#' in GWAS (I) and GWAS (III).
 #'
-#' @param gamma1.exp  SNP effect size's vector of the exposure vairable (GWASI)
-#' @param gamma2.exp  SNP effect size's vector of the mediator vairable (GWASIII)
+#'
+#' Take GWAS (I) \eqn{(\hat{\beta}_{X_j}, {\sigma}_{X_j})} as an example, here
+#' \eqn{\hat{\beta}_{X_j,\mathtt{RB}} =  \hat{\beta}_{X_j} - \frac{\sigma_{X_j}}{\eta}\Big(\phi\big(A_{j,+}\big) - \phi\big(A_{j,-}\big)\Big)\Big(\frac{\mathbf{1}_{(j\in\mathcal{S}_{\mathtt{x}})}}{1 - \Phi\big(A_{j,+}\big) + \Phi\big(A_{j,-}\big)} - \frac{\mathbf{1}_{(j\not\in\mathcal{S}_{\mathtt{x}})}}{ \Phi\big(A_{j,+}\big) - \Phi\big(A_{j,-}\big)} \Big)},
+#' \eqn{\hat{\sigma}_{X_j,\mathtt{RB}}^{ \mathrm{2} }  = \sigma_{X_j}^2 \Bigg( 1 - \frac{1}{\eta^2}  \frac{A_{j,+}\phi(A_{j,+}) - A_{j,-}\phi(A_{j,-})}{1 - \Phi(A_{j,+}) + \Phi( A_{j,-} )} +\frac{1}{\eta^2} \Big(\frac{\phi(A_{j,+}) - \phi(A_{j,-}) }{1 - \Phi(A_{j,+}) + \Phi( A_{j, -} )}\Big)^2 \Bigg)},
+#' and \eqn{\phi(\cdot)} is the density function of standard normal distrbution, \eqn{\Phi(\cdot)} is the cummulative function of standard normal distrbution.
+#' @param gamma1.exp  SNP effect size's vector of the exposure vairable (GWAS(I))
+#' @param gamma2.exp  SNP effect size's vector of the mediator vairable (GWAS(III))
 #' @param se1.exp    SNP effect size's standard errors of \code{beta.exposure}
 #' @param se2.exp    SNP effect size's standard errors of \code{beta.mediator}
 #' @param etamean1  rerandomized scale of exposure variable. Default is 0.5.
 #' @param etamean2  rerandomized scale of mediator variable. Default is 0.5.
-#' @param pthr A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)
-#' @param seed  a random seed. Default is 0.
+#' @param pthr A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is (5e-5, 5e-5). (corresponding \eqn{\lambda} is 4.06)
+#' @param seed  The value of the random seed. Default is 0.
 #' @return A list
 #' \describe{
-#' \item{filter1}{Indexs of selected relevant IVs in Sx}
-#' \item{filter2}{Indexs of selected relevant IVs in Sm}
+#' \item{filter1}{Indexs of selected relevant IVs in \eqn{\mathcal{S}_{\mathtt{x}}}}
+#' \item{filter2}{Indexs of selected relevant IVs in \eqn{\mathcal{S}_{\mathtt{m}}}}
 #' \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{gamma_exp2}{Effect size in GWAS (III) after Rao-Blackwellization to eliminate the winner's curse}
@@ -59,18 +65,20 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
 
 
 
-#' Main function for MAGIC
+#' Main function for using MAGIC framework to conduct mediation analysis.
 #'
-#' @param beta.exposure  SNP effect size's vector of the exposure vairable (GWASI)
-#' @param beta.mediator  SNP effect size's vector of the mediator vairable (GWASIII)
-#' @param beta.outcome   SNP effect size's vector of the outcome vairable (GWASII)
+#' MAGIC stands for the Mediation Analysis framework through GWAS summary data Integration with the winner's (and the loser's) curse and measurement bias Correction.
+#' Our framework efficiently integrates information stored in three independent GWAS summary data and mitigates the commonly encountered winner's curse and measurement error bias (a.k.a. instrument selection and weak instrument bias) in MR.
+#' @param beta.exposure  SNP effect size's vector of the exposure vairable (GWAS(I))
+#' @param beta.mediator  SNP effect size's vector of the mediator vairable (GWAS(III))
+#' @param beta.outcome   SNP effect size's vector of the outcome vairable (GWAS(II))
 #' @param se.exposure    SNP effect size's standard errors of \code{beta.exposure}
 #' @param se.mediator    SNP effect size's standard errors of \code{beta.mediator}
 #' @param se.outcome     SNP effect size's standard errors of \code{beta.outcome}
 #' @param Conf.level Confidence level. Default is 0.95.
-#' @param pval.select A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)
-#' @param eta A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is c(0.5,0.5).
-#' @param seed The value of random seed. Default is 0.
+#' @param pval.select A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is (5e-5, 5e-5). (corresponding \eqn{\lambda} is 4.06)
+#' @param eta A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is (0.5,0.5).
+#' @param seed The value of the random seed. Default is 0.
 #' @return A list
 #' \describe{
 #' \item{theta.hat}{Estimated direct effect from exposure to outcome variable}
@@ -86,8 +94,8 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
 #' \item{n.IV.exp}{Number of IVs used in exposure dataset}
 #' \item{n.IV.med}{Number of IVs used in mediator dataset}
 #' \item{Conf.Interval}{Confidence interval given \code{Conf.level}}
-#' \item{IV.exp}{The index of IVs selected in Sx}
-#' \item{IV.med}{The index of IVs selected in Sm}
+#' \item{IV.exp}{The index of IVs selected in \eqn{\mathcal{S}_{\mathtt{x}}}}
+#' \item{IV.med}{The index of IVs selected in \eqn{\mathcal{S}_{\mathtt{m}}}}
 #' }
 #'
 #' @references Rita Qiuran Lyu, Chong Wu, Xinwei Ma, Jingshen Wang (2023). Mediation Analysis with Mendelian Randomization and Efficient Multiple GWAS Integration. \url{https://arxiv.org/abs/2312.10563}.

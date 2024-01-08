@@ -2,7 +2,7 @@
 % Please edit documentation in R/MAGIC.R
 \name{MAGIC}
 \alias{MAGIC}
-\title{Main function for MAGIC}
+\title{Main function for using MAGIC framework to conduct mediation analysis.}
 \usage{
 MAGIC(
   beta.exposure,
@@ -18,11 +18,11 @@ MAGIC(
 )
 }
 \arguments{
-\item{beta.exposure}{SNP effect size's vector of the exposure vairable (GWASI)}
+\item{beta.exposure}{SNP effect size's vector of the exposure vairable (GWAS(I))}
 
-\item{beta.mediator}{SNP effect size's vector of the mediator vairable (GWASIII)}
+\item{beta.mediator}{SNP effect size's vector of the mediator vairable (GWAS(III))}
 
-\item{beta.outcome}{SNP effect size's vector of the outcome vairable (GWASII)}
+\item{beta.outcome}{SNP effect size's vector of the outcome vairable (GWAS(II))}
 
 \item{se.exposure}{SNP effect size's standard errors of \code{beta.exposure}}
 
@@ -32,11 +32,11 @@ MAGIC(
 
 \item{Conf.level}{Confidence level. Default is 0.95.}
 
-\item{pval.select}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)}
+\item{pval.select}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is (5e-5, 5e-5). (corresponding \eqn{\lambda} is 4.06)}
 
-\item{eta}{A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is c(0.5,0.5).}
+\item{eta}{A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is (0.5,0.5).}
 
-\item{seed}{The value of random seed. Default is 0.}
+\item{seed}{The value of the random seed. Default is 0.}
 }
 \value{
 A list
@@ -54,12 +54,13 @@ A list
 \item{n.IV.exp}{Number of IVs used in exposure dataset}
 \item{n.IV.med}{Number of IVs used in mediator dataset}
 \item{Conf.Interval}{Confidence interval given \code{Conf.level}}
-\item{IV.exp}{The index of IVs selected in Sx}
-\item{IV.med}{The index of IVs selected in Sm}
+\item{IV.exp}{The index of IVs selected in \eqn{\mathcal{S}_{\mathtt{x}}}}
+\item{IV.med}{The index of IVs selected in \eqn{\mathcal{S}_{\mathtt{m}}}}
 }
 }
 \description{
-Main function for MAGIC
+MAGIC stands for the Mediation Analysis framework through GWAS summary data Integration with the winner's (and the loser's) curse and measurement bias Correction.
+Our framework efficiently integrates information stored in three independent GWAS summary data and mitigates the commonly encountered winner's curse and measurement error bias (a.k.a. instrument selection and weak instrument bias) in MR.
 }
 \references{
 Rita Qiuran Lyu, Chong Wu, Xinwei Ma, Jingshen Wang (2023). Mediation Analysis with Mendelian Randomization and Efficient Multiple GWAS Integration. \url{https://arxiv.org/abs/2312.10563}.

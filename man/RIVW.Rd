@@ -2,7 +2,7 @@
 % Please edit documentation in R/RIVW.R
 \name{RIVW}
 \alias{RIVW}
-\title{Main function for RIVW}
+\title{Main function for conducting RIVW estimator.}
 \usage{
 RIVW(
   beta.exposure,
@@ -29,11 +29,11 @@ RIVW(
 
 \item{smoothing}{Whether to use smoothing to decrease variance. Default is FALSE.}
 
-\item{pval.select}{The specified pre-screening threshold. Default is 5e-5. (corresponding lambda is 4.06)}
+\item{pval.select}{The specified pre-screening threshold. Default is 5e-5. (corresponding \eqn{\lambda} is 4.06)}
 
 \item{eta}{A vector of rerandomized scale. Default is 0.5.}
 
-\item{seed}{The value of random seed. Default is 0.}
+\item{seed}{The value of the random seed. Default is 0.}
 }
 \value{
 A list
@@ -42,6 +42,7 @@ A list
 \item{se.rerand}{Exposure dataset standard errors after rerandomization.}
 \item{beta.hat}{Estimated direct effect from exposure to outcome variable}
 \item{beta.se}{Standard error of \code{beta.hat}}
+\item{IV}{The index of IVs selected in Sx}
 \item{n.IV}{Number of IVs used in exposure dataset}
 \item{F}{The value of F-statistic}
 \item{p.val}{The p-value of estimated causal effect}
@@ -49,7 +50,14 @@ A list
 }
 }
 \description{
-Main function for RIVW
+Conventional two-sample Mendelian randomization methods often employ the same sample for
+selecting relevant genetic variants and for constructing final causal estimates. Such a practice often
+leads to biased causal effect estimates due to the well-known "winner's curse" phenomenon. To
+address this fundamental challenge, we propose a novel framework that not only systematically
+breaks the winner's curse but also provides an unbiased estimate of the genetic association effect
+after selection. Built upon the proposed framework, we introduce a novel randomized inverse
+variance weighted (RIVW) estimator that is provably consistent when selection and parameter
+estimation are conducted on the same sample.
 }
 \references{
 Xinwei Ma, Jingshen Wang, Chong Wu. (2023). Breaking the Winner’s Curse in Mendelian Randomization:Rerandomized Inverse Variance Weighted Estimator \url{https://projecteuclid.org/journals/annals-of-statistics/volume-51/issue-1/Breaking-the-winners-curse-in-Mendelian-randomization--Rerandomized-inverse/10.1214/22-AOS2247.full}.

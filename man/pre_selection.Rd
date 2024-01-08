@@ -2,7 +2,8 @@
 % Please edit documentation in R/MAGIC.R
 \name{pre_selection}
 \alias{pre_selection}
-\title{Supplementary function for MAGIC}
+\title{Supplementary function for MAGIC to conduct rerandomization and Rao-Blackwellization
+in GWAS (I) and GWAS (III).}
 \usage{
 pre_selection(
   gamma1.exp,
@@ -16,11 +17,11 @@ pre_selection(
 )
 }
 \arguments{
-\item{gamma1.exp}{SNP effect size's vector of the exposure vairable (GWASI)}
+\item{gamma1.exp}{SNP effect size's vector of the exposure vairable (GWAS(I))}
 
 \item{se1.exp}{SNP effect size's standard errors of \code{beta.exposure}}
 
-\item{gamma2.exp}{SNP effect size's vector of the mediator vairable (GWASIII)}
+\item{gamma2.exp}{SNP effect size's vector of the mediator vairable (GWAS(III))}
 
 \item{se2.exp}{SNP effect size's standard errors of \code{beta.mediator}}
 
@@ -28,15 +29,15 @@ pre_selection(
 
 \item{etamean2}{rerandomized scale of mediator variable. Default is 0.5.}
 
-\item{pthr}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)}
+\item{pthr}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is (5e-5, 5e-5). (corresponding \eqn{\lambda} is 4.06)}
 
-\item{seed}{a random seed. Default is 0.}
+\item{seed}{The value of the random seed. Default is 0.}
 }
 \value{
 A list
 \describe{
-\item{filter1}{Indexs of selected relevant IVs in Sx}
-\item{filter2}{Indexs of selected relevant IVs in Sm}
+\item{filter1}{Indexs of selected relevant IVs in \eqn{\mathcal{S}_{\mathtt{x}}}}
+\item{filter2}{Indexs of selected relevant IVs in \eqn{\mathcal{S}_{\mathtt{m}}}}
 \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{gamma_exp2}{Effect size in GWAS (III) after Rao-Blackwellization to eliminate the winner's curse}
@@ -46,7 +47,10 @@ A list
 }
 }
 \description{
-Supplementary function for MAGIC
+Take GWAS (I) \eqn{(\hat{\beta}_{X_j}, {\sigma}_{X_j})} as an example, here
+\eqn{\hat{\beta}_{X_j,\mathtt{RB}} =  \hat{\beta}_{X_j} - \frac{\sigma_{X_j}}{\eta}\Big(\phi\big(A_{j,+}\big) - \phi\big(A_{j,-}\big)\Big)\Big(\frac{\mathbf{1}_{(j\in\mathcal{S}_{\mathtt{x}})}}{1 - \Phi\big(A_{j,+}\big) + \Phi\big(A_{j,-}\big)} - \frac{\mathbf{1}_{(j\not\in\mathcal{S}_{\mathtt{x}})}}{ \Phi\big(A_{j,+}\big) - \Phi\big(A_{j,-}\big)} \Big)},
+\eqn{\hat{\sigma}_{X_j,\mathtt{RB}}^{ \mathrm{2} }  = \sigma_{X_j}^2 \Bigg( 1 - \frac{1}{\eta^2}  \frac{A_{j,+}\phi(A_{j,+}) - A_{j,-}\phi(A_{j,-})}{1 - \Phi(A_{j,+}) + \Phi( A_{j,-} )} +\frac{1}{\eta^2} \Big(\frac{\phi(A_{j,+}) - \phi(A_{j,-}) }{1 - \Phi(A_{j,+}) + \Phi( A_{j, -} )}\Big)^2 \Bigg)},
+and \eqn{\phi(\cdot)} is the density function of standard normal distrbution, \eqn{\Phi(\cdot)} is the cummulative function of standard normal distrbution.
 }
 \references{
 Rita Qiuran Lyu, Chong Wu, Xinwei Ma, Jingshen Wang (2023). Mediation Analysis with Mendelian Randomization and Efficient Multiple GWAS Integration. \url{https://arxiv.org/abs/2312.10563}.
