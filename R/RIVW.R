@@ -18,7 +18,7 @@
 #'
 #' @import stats
 #'
-
+#' @export
 
 
 pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, smoothing=FALSE) {
@@ -99,7 +99,7 @@ pre_screening<-function(gamma1.exp,se1.exp, etamean = 0.5,pthr = 5e-5,seed = 0, 
 #'
 #' @import stats
 #'
-
+#' @export
 RIVW<-function(beta.exposure, beta.outcome, se.exposure, se.outcome, Conf.level=0.95, smoothing=FALSE, pval.select=5e-5,eta=0.5,seed=0)
 {
   over_summary=pre_screening(gamma1.exp = beta.exposure, se1.exp=se.exposure,etamean = eta, pthr=pval.select,seed=seed,smoothing=smoothing)

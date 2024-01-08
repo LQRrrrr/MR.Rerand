@@ -24,7 +24,7 @@
 #'
 #' @import stats
 #' @importFrom MASS mvrnorm
-
+#' @export
 
 pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, etamean2=0.5,pthr = c(5e-5,5e-5),seed = 0) {
 
@@ -95,7 +95,8 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
 #' @import stats
 #' @importFrom MASS mvrnorm
 #' @importFrom msm deltamethod
-
+#' @export
+#'
 MAGIC<-function(beta.exposure, beta.mediator, beta.outcome, se.exposure, se.mediator, se.outcome, Conf.level=0.95, pval.select=c(5e-5,5e-5), eta=c(0.5,0.5),seed=0)
 {
   eta_x=eta[1]
