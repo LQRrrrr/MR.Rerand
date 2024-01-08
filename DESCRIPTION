@@ -1,7 +1,7 @@
 Package: MR.Rerand
 Title: Re-Randomized Inverse-Variance Weighted Estimator in Two-Sample Mendelian Randomization with Summary-Data and Mediation Analysis in Mendelian Randomization with Summary-Data
 Version: 0.0.1
-Authors@R:person("Rita", "Lyu", "qiuran_lyu@berkeley.edu", role = c("aut", "cre"))
+Author:person("Rita", "Lyu", "qiuran_lyu@berkeley.edu", role = c("aut", "cre"))
 Maintainer: Rita (Qiuran) Lyu <qiuran_lyu@berkeley.edu>
 Description: Conducting rerandomization in two sample GWAS with summary data to estimate the causal effect or in three samples GWAS to estimate the mediation effect.
 Encoding: UTF-8
@@ -11,5 +11,4 @@ Imports:
         stats,
         MASS,
         msm,
-        MVMR
 License: MIT + file LICENSE
