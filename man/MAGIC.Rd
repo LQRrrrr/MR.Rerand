@@ -13,7 +13,8 @@ MAGIC(
   se.outcome,
   Conf.level = 0.95,
   pval.select = c(5e-05, 5e-05),
-  eta = c(0.5, 0.5)
+  eta = c(0.5, 0.5),
+  seed = 0
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ MAGIC(
 \item{pval.select}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)}
 
 \item{eta}{A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is c(0.5,0.5).}
+
+\item{seed}{The value of random seed. Default is 0.}
 }
 \value{
 A list

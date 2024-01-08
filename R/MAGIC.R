@@ -7,11 +7,11 @@
 #' @param etamean1  rerandomized scale of exposure variable. Default is 0.5.
 #' @param etamean2  rerandomized scale of mediator variable. Default is 0.5.
 #' @param pthr A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)
-#' @param seed sample a random seed
+#' @param seed  a random seed. Default is 0.
 #' @return A list
 #' \describe{
-#' \item{filter1}{Indexs of SNPs in Sx}
-#' \item{filter2}{Indexs of SNPs in Sm}
+#' \item{filter1}{Indexs of selected relevant IVs in Sx}
+#' \item{filter2}{Indexs of selected relevant IVs in Sm}
 #' \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 #' \item{gamma_exp2}{Effect size in GWAS (III) after Rao-Blackwellization to eliminate the winner's curse}
@@ -26,7 +26,7 @@
 #' @importFrom MASS mvrnorm
 
 
-pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, etamean2=0.5,pthr = c(5e-5,5e-5),seed = sample(1:100000,1)) {
+pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, etamean2=0.5,pthr = c(5e-5,5e-5),seed = 0) {
 
   p_x=pthr[1]
   p_m=pthr[2]
@@ -70,6 +70,7 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
 #' @param Conf.level Confidence level. Default is 0.95.
 #' @param pval.select A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)
 #' @param eta A vector of rerandomized scale in the ordering of  (exposure, mediator). Default is c(0.5,0.5).
+#' @param seed The value of random seed. Default is 0.
 #' @return A list
 #' \describe{
 #' \item{theta.hat}{Estimated direct effect from exposure to outcome variable}
@@ -95,14 +96,14 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
 #' @importFrom MASS mvrnorm
 #' @importFrom msm deltamethod
 
-MAGIC<-function(beta.exposure, beta.mediator, beta.outcome, se.exposure, se.mediator, se.outcome, Conf.level=0.95, pval.select=c(5e-5,5e-5), eta=c(0.5,0.5))
+MAGIC<-function(beta.exposure, beta.mediator, beta.outcome, se.exposure, se.mediator, se.outcome, Conf.level=0.95, pval.select=c(5e-5,5e-5), eta=c(0.5,0.5),seed=0)
 {
   eta_x=eta[1]
   eta_m=eta[2]
   pval_x=pval.select[1]
   pval_m=pval.select[2]
   # selection with rerandomization - no winner's curse
-  over_summary=pre_selection(gamma1.exp = beta.exposure, se1.exp = se.exposure,gamma2.exp =beta.mediator,se2.exp = se.mediator,etamean1 = eta_x,etamean2 = eta_m,pthr=pval.select)
+  over_summary=pre_selection(gamma1.exp = beta.exposure, se1.exp = se.exposure,gamma2.exp =beta.mediator,se2.exp = se.mediator,etamean1 = eta_x,etamean2 = eta_m,pthr=pval.select,seed=seed)
   #rerand
   # ********Proposed MR***********
   # *****Rerandomization****

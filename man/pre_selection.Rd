@@ -12,7 +12,7 @@ pre_selection(
   etamean1 = 0.5,
   etamean2 = 0.5,
   pthr = c(5e-05, 5e-05),
-  seed = sample(1:1e+05, 1)
+  seed = 0
 )
 }
 \arguments{
@@ -30,13 +30,13 @@ pre_selection(
 
 \item{pthr}{A vector of specified pre-screening threshold in the ordering of (exposure, mediator). Default is c(5e-5, 5e-5). (corresponding lambda is 4.06)}
 
-\item{seed}{sample a random seed}
+\item{seed}{a random seed. Default is 0.}
 }
 \value{
 A list
 \describe{
-\item{filter1}{Indexs of SNPs in Sx}
-\item{filter2}{Indexs of SNPs in Sm}
+\item{filter1}{Indexs of selected relevant IVs in Sx}
+\item{filter2}{Indexs of selected relevant IVs in Sm}
 \item{gamma_exp1}{Effect size in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{se1}{Standard errors in GWAS (I) after Rao-Blackwellization to eliminate the winner's curse}
 \item{gamma_exp2}{Effect size in GWAS (III) after Rao-Blackwellization to eliminate the winner's curse}
