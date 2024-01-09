@@ -7,6 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -14,6 +15,22 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+## Introduction
+`MR.Rerand` is a package that can implement (i)Re-randomized Inverse Variance Weighting (RIVW) estimator in two-sample MR to first conduct re-randomization and Rao-Blackwellization, then estimate the causal effect from the exposure variable $X$ to the outcome variable $Y$. This method can eliminate the measurement error and the winner's curse bias simultaneously. (ii) Mediation Analysis framework through GWAS summary data Integration with the winner's (and the loser's) curse and measurement bias Correction (MAGIC). This method can estimate the parameters $\tau_X$, $\tau_Y$, $\theta$ in the below causal diagram, not only correcting the winner's (and the loser's) curse and measurement bias, but also improve the efficiency.
+
+```{r}
+knitr::include_graphics("https://github.com/LQRrrrr/MR.Rerand/blob/master/man/figures/causal_diagram.jpeg")
+```
+
+
+## Installation
+```{r, eval = FALSE,warning=FALSE,message=FALSE}
+devtools::install_github("LQRrrrr/MR.Rerand")
+```
+
+## Quick start
+First we load the `MR.Rerand` package:
+```{r, warning=FALSE,message=FALSE}
 library(MR.Rerand)
 ```
+

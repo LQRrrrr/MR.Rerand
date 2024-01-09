@@ -66,7 +66,7 @@ library(MR.Rerand)
   ## Conducting mediation analysis  
   mediaiton.result=MAGIC(betahat_x,betahat_m,betahat_y,se_x,se_m,se_y)
   ## Conducting two-sample MR using RIVW with smoothing to decrease the variance
-  RIVW.result,smoothing=RIVW(betahat_x,betahat_m,se_x,se_m,smoothing = TRUE)   
+  RIVW.result.smoothing=RIVW(betahat_x,betahat_m,se_x,se_m,smoothing = TRUE)   
   ## Conducting two-sample MR using RIVW with smoothing to decrease the variance
   RIVW.result=RIVW(betahat_x,betahat_m,se_x,se_m)
   ## Just generate rerandomized effect size and standard errors

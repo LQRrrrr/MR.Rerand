@@ -8,7 +8,7 @@ RoxygenNote: 7.2.3
 Imports:
         stats,
         MASS,
-        msm,
+        msm
 License: MIT + file LICENSE
 Authors@R: 
     person("Rita", "Lyu", , "qiuran_lyu@berkeley.edu", role = c("aut", "cre", "cph"))

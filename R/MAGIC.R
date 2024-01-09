@@ -51,7 +51,9 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
     alpha2=(C_sel_x-gamma1.exp_sel/se1.exp_sel)/eta_sel
     gamma1.carve=gamma1.exp_sel-(se1.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha1)+1-pnorm(alpha2)))
     sigma21.carve=(1-((alpha2*dnorm(alpha2)-alpha1*dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1))-((dnorm(alpha2)-dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1)))^2)/eta_sel^2)*se1.exp_sel^2
-    gamma1.carve2=gamma1.exp_sel+(se1.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha2)-pnorm(alpha1)))
+
+    warning("Some corrected IVs with variance <= 0\n")
+       gamma1.carve2=gamma1.exp_sel+(se1.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha2)-pnorm(alpha1)))
     gamma2.exp_sel=gamma2.exp
     se2.exp_sel=se2.exp
     eta_sel=etamean2
@@ -59,7 +61,8 @@ pre_selection<-function(gamma1.exp,se1.exp,gamma2.exp,se2.exp, etamean1 = 0.5, e
     alpha2=(C_sel_m-gamma2.exp_sel/se2.exp_sel)/eta_sel
     gamma2.carve=gamma2.exp_sel-(se2.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha1)+1-pnorm(alpha2)))
     gamma2.carve2=gamma2.exp_sel+(se2.exp_sel/eta_sel)*((dnorm(alpha2)-dnorm(alpha1))/(pnorm(alpha2)-pnorm(alpha1)))
-    sigma22.carve=(1-((alpha2*dnorm(alpha2)-alpha1*dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1))-((dnorm(alpha2)-dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1)))^2)/eta_sel^2)*se2.exp_sel^2
+    warning("Some corrected IVs with variance <= 0\n")
+     sigma22.carve=(1-((alpha2*dnorm(alpha2)-alpha1*dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1))-((dnorm(alpha2)-dnorm(alpha1))/(1-pnorm(alpha2)+pnorm(alpha1)))^2)/eta_sel^2)*se2.exp_sel^2
   return(list(filter1=ind_filter1,filter2=ind_filter2,gamma_exp1=gamma1.carve,se1=sqrt(sigma21.carve),gamma_exp2=gamma2.carve,se2=sqrt(sigma22.carve),gamma_exp1.carve=gamma1.carve2,gamma_exp2.carve=gamma2.carve2))
 }
 
@@ -190,7 +193,7 @@ MAGIC<-function(beta.exposure, beta.mediator, beta.outcome, se.exposure, se.medi
   rownames(tempdat)=c("theta","tauy","taux","tau","tau.total")
   colnames(tempdat)=c("Lower Bound", "Upper Bound")
   Conf.Interval=tempdat
-  return(list(theta.hat=theta.hat,theta.se=theta.se,tauy.hat=tauy.hat,tauy.se=tauy.se,taux.hat=taux.hat,taux.se=taux.se,tau.hat=tau.hat,tau_total.hat=tau_total.hat,
+  return(list(theta.hat=theta.hat,theta.se=theta.se,tauy.hat=tauy.hat,tauy.se=tauy.se,taux.hat=taux.hat,taux.se=taux.se,tau.hat=tau.hat,tau.se=tau.se,tau_total.hat=tau_total.hat,
               tau_total.se=tau_total.se,n.IV.exp=n.IV.exp,n.IV.med=n.IV.med,IV.exp=IV.exp,IV.med=IV.med,Conf.Interval=Conf.Interval))
 
 }
