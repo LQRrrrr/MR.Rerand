@@ -16,10 +16,11 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-`MR.Rerand` is a package that can implement (i)Re-randomized Inverse Variance Weighting (RIVW) estimator in two-sample MR to first conduct re-randomization and Rao-Blackwellization, then estimate the causal effect from the exposure variable $X$ to the outcome variable $Y$. This method can eliminate the measurement error and the winner's curse bias simultaneously. (ii) Mediation Analysis framework through GWAS summary data Integration with the winner's (and the loser's) curse and measurement bias Correction (MAGIC). This method can estimate the parameters $\tau_X$, $\tau_Y$, $\theta$ in the below causal diagram, not only correcting the winner's (and the loser's) curse and measurement bias, but also improve the efficiency.
 
-```{r}
-knitr::include_graphics("https://github.com/LQRrrrr/MR.Rerand/blob/master/man/figures/causal_diagram.jpeg")
+`MR.Rerand` is a package that can implement (i)Re-randomized Inverse Variance Weighting (RIVW) estimator in two-sample MR to first conduct re-randomization and Rao-Blackwellization, then estimate the causal effect from the exposure variable $X$ to the outcome variable $Y$. This method can eliminate the measurement error and the winner's curse bias simultaneously. (ii) Mediation Analysis framework through GWAS summary data Integration with the winner's (and the loser's) curse and measurement bias Correction (MAGIC). This method can estimate the parameters $\tau_X$, $\tau_Y$, $\theta$ in the below causal diagram and the mediation effect $\tau=\tau_X\tau_Y$, the total effect $\theta+\tau$, not only correcting the winner's (and the loser's) curse and measurement bias, but also improve the efficiency.
+
+```{r,fig.width=10,fig.height=10}
+knitr::include_graphics("D:\\Research\\Rpackages\\MR.Rerand\\man\\figures\\causal_diagram.jpeg")
 ```
 
 
@@ -34,3 +35,139 @@ First we load the `MR.Rerand` package:
 library(MR.Rerand)
 ```
 
+We set $\theta=-0.2, \tau_Y=0.2, \tau_X=0.6$ and generate the three sample GWAS summary statistics.
+
+
+```{r}
+ M=100000
+   pi1=pi2=0.02
+   pi3=0.02
+   nx=ny=nm=100000
+   se_x=rep(sqrt(1/nx),M)
+   se_y=rep(sqrt(1/ny),M)
+   se_m=rep(sqrt(1/nm),M)
+   sigma2x=sigma2y=0.5e-4
+   theta=-0.2
+   tauY=0.2
+   tauX=0.6
+  gamma=rep(0,M)
+  ind1=sample(M,round(M*pi1))#valid for betaXj
+  causalsnps=ind1
+  ## simulation 1 (see more simulation settings in reference 2)
+  ind3=sample(setdiff(1:M,causalsnps),round(M*pi3))# valid for sj
+  causalsnps=c(causalsnps,ind3)
+  alpha=rep(0,M)
+  gamma[ind1]=rnorm(length(ind1),0,sd=sqrt(sigma2x))
+  alpha[ind3]=rnorm(length(ind3),0,sd=sqrt(sigma2y))
+  gammam=tauX*gamma+alpha# pleiotropy sj
+  gammay=theta*gamma+tauY*gammam#no pleiotropy
+      betax=gamma
+      betam=gammam
+      betay=gammay
+      betahat_x=gamma+rnorm(M,mean=0,sd=sqrt(1/nx))
+      betahat_m=gammam+rnorm(M,mean=0,sd=sqrt(1/nm))
+      betahat_y=gammay+rnorm(M,mean=0,sd=sqrt(1/ny))
+```
+
+## Conducting mediation analysis  
+
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+ 
+mediaiton.result=MAGIC(betahat_x,betahat_m,betahat_y,se_x,se_m,se_y)
+```
+
+### Result summary
+
+The estimated parameters with corresponding standard errors.
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+#theta
+print(mediaiton.result$theta.hat)
+print(mediaiton.result$theta.se)
+#tauY
+print(mediaiton.result$tauy.hat)
+print(mediaiton.result$tauy.se)
+#tauX
+print(mediaiton.result$taux.hat)
+print(mediaiton.result$taux.se)
+#tau
+print(mediaiton.result$tau.hat)
+print(mediaiton.result$tau.se)
+#total effect 
+print(mediaiton.result$tau_total.hat)
+print(mediaiton.result$tau_total.se)
+```
+
+The number of IVs selected in the exposure dataset and the mediator dataset and the corresponding indexs.
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+# number of IVs selected 
+print(mediaiton.result$n.IV.exp)
+print(mediaiton.result$n.IV.med)
+#IVs positions
+print(mediaiton.result$IV.exp)
+print(mediaiton.result$IV.med)
+```
+
+Confidence Intervals for each estimator
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+mediaiton.result$Conf.Interval
+```
+
+## Conduct RIVW to estimate the causal effect $\tau_X$ from $X$ to $M$ with smoothing
+
+RIVW smoothing estimator uses all the SNPs to estimate the causal effect. 
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+ RIVW.result.smoothing=RIVW(betahat_x,betahat_m,se_x,se_m,smoothing = TRUE)   
+```
+### Result Summary
+
+The estimated causal effect and the standard error.
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+print(RIVW.result.smoothing$beta.hat)
+print(RIVW.result.smoothing$beta.se)
+```
+
+
+## Conduct RIVW to estimate the causal effect $\tau_X$ from $X$ to $M$ without smoothing
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+ RIVW.result=RIVW(betahat_x,betahat_m,se_x,se_m)
+```
+
+### Result Summary
+
+The effect sizes and the standard errors after Rerandomization and Rao-Blackwellization.
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+print(RIVW.result$beta.rerand)
+print(RIVW.result$se.rerand)
+```
+
+
+The estimated causal effect,  the standard error, and the p-value.
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+print(RIVW.result$beta.hat)
+print(RIVW.result$beta.se)
+print(RIVW.result$p.val)
+```
+
+The position of selected IVs and the number of IVs.
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+print(RIVW.result$IV)
+print(RIVW.result$n.IV)
+```
+
+The F-statistics of selected IVs
+
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+RIVW.result$F
+```
+
+The confidence interval
+```{r,cache=TRUE,warning=FALSE,message=FALSE}
+RIVW.result$Conf.Interval
+```
