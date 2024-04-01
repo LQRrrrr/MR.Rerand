@@ -19,9 +19,9 @@ Another important usage of this package is to generate the re-randomized effect 
 
 The effect sizes and standard errors after Rao-Blackwellization can be obtained by
 
-- pre_screening rerandomizing in the exposure dataset and conduct Rao-Blackwellization to eliminate the winner's curse and the loser's curse
+- pre_screening rerandomizing in the exposure dataset and conducting Rao-Blackwellization to eliminate the winner's curse and the loser's curse
 
-- pre_selection rerandomizing in both the exposure dataset and the mediator dataset and conduct Rao-Blackwellization to eliminate both the winner's curse and the loser's curse
+- pre_selection rerandomizing in both the exposure dataset and the mediator dataset and conducting Rao-Blackwellization to eliminate both the winner's curse and the loser's curse
 
 
 
